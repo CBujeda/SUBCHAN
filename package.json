@@ -1,0 +1,24 @@
+{
+  "name": "subchan",
+  "version": "1.0.0",
+  "description": "A subriruler system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CBujeda/SUBCHAN.git"
+  },
+  "author": "Clara Bujeda Muñoz",
+  "license": "LSLN",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2"
+  },
+  "bugs": {
+    "url": "https://github.com/CBujeda/SUBCHAN/issues"
+  },
+  "homepage": "https://github.com/CBujeda/SUBCHAN#readme"
+}
