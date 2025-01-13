@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    </head>
+    <body>
+        <div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-4">
+                        <h1>Configuración General</h1>
+                        <div>
+                            <form action="/update-config" method="POST">
+
+                                <input type="text" value="<%= usuario %>" class="form-control" name="usuario" placeholder="Usuario" aria-describedby="backgroundColorLabel">
+                                <input type="text" value="<%= usuarioYoutube %>" class="form-control" name="usuarioYoutube" placeholder="Usuario de YouTube" aria-describedby="backgroundColorLabel">
+                                <input type="text" value="<%= usuarioTwitch %>" class="form-control" name="usuarioTwitch" placeholder="Usuario de Twitch" aria-describedby="backgroundColorLabel">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="backgroundColorLabel">Color de Fondo</span>
+                                    <input type="color"  value="<%= backgroundColor %>" class="form-control" style="max-width: 100px;" name="backgroundColor" aria-describedby="backgroundColorLabel">
+                                </div>
+                                <button class="btn btn-light" type="submit" class="">Actualizar App</button>
+                                <a class="btn btn-light" id="boton_add_traduccion" onclick="document.getElementById('addTraduccionContainer').style.display = 'block'; this.style.display = 'none';">Añadir Traducción</a>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!----Añadir traduccion-->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                    </div>
+                </div>
+            </div>
+            <div class="container" id="addTraduccionContainer" style="display: none;">
+                <div class="row">
+                    <div class="col-12 border border-dark-subtle">
+                        <h1>Añadir Traducción</h1>
+                        <form action="/add-traduccion" method="POST">
+                            <div class="mb-3">
+                                <label for="idioma" class="form-label">Idioma</label>
+                                <select class="form-select mt-2" style="max-width: 200px;" name="idioma" required>
+                                    <% langTable.forEach(function(lang) { %>
+                                        <option value="<%= lang.codigo_idioma %>"><%= lang.Nombre_idioma %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipoLetra" class="form-label">Tipo de Letra</label>
+                                <input type="text" value="Arial" class="form-control" id="tipoLetra" name="tipoLetra" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="color" class="form-label">Color</label>
+                                <input type="color" class="form-control" id="color" name="color" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="borde_size" class="form-label">Tamaño del Borde</label>
+                                <input type="number" value="0" class="form-control" id="borde_size" name="borde_size" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="borde_color" class="form-label">Color del Borde</label>
+                                <input type="color" value="#fffff" class="form-control" id="borde_color" name="borde_color" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="background" class="form-label">Fondo</label>
+                                <input type="text" value="transparent" class="form-control" id="background" name="background" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="fontWeight" class="form-label">Peso de la Fuente</label>
+                                <input type="number" value="0" class="form-control" id="fontWeight" name="fontWeight" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="size_text" class="form-label">Tamaño del Texto</label>
+                                <input type="number" value="50" class="form-control" id="size_text" name="size_text" >
+                            </div>
+
+                            <div class="mb-3" style="display: none;">
+                                <label for="posicion_vertical" class="form-label">Posición Vertical</label>
+                                <input type="text" class="form-control" id="posicion_vertical" name="posicion_vertical" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="posicion_horizontal" class="form-label">Posición Horizontal</label>
+                                <input type="text" class="form-control" id="posicion_horizontal" name="posicion_horizontal" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="subrayado" class="form-label">Subrayado</label>
+                                <input type="checkbox" class="form-check-input" id="subrayado" name="subrayado">
+                            </div>
+                            <div class="mb-3">
+                                <label for="sombra" class="form-label">Sombra</label>
+                                <input type="checkbox" class="form-check-input" id="sombra" name="sombra" checked>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cursiva" class="form-label">Cursiva</label>
+                                <input type="checkbox" class="form-check-input" id="cursiva" name="cursiva">
+                            </div>
+                            <div class="text-end mb-2">
+                                <button type="submit" class="btn btn-light">Añadir Traducción</button>
+                                <a href="#" class="btn btn-danger" onclick="document.getElementById('addTraduccionContainer').style.display = 'none';document.getElementById('boton_add_traduccion').style.display = ''; ">Close</a>
+
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!----TRADUCCIONES-->
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>Configuración de Fuentes</h1>
+                    </div>
+                </div>
+                <% traducciones.forEach(function(traduccion) { %>
+                    
+                        <form action="/update-Traduccion" method="POST">
+                            <div class="row border border-dark-subtle mt-2">
+                                <div class="col-12">
+                                    <input type="hidden" name="traduccion" value="<%= traduccion.traduccion %>">
+                                    <!--<p>ID: <%= traduccion.traduccion %>, Idioma: <%= traduccion.idioma %></p>-->
+                                    <!--<input type="text" name="idioma" value="<%= traduccion.idioma %>" placeholder="Idioma" required>-->
+                                    <select class="form-select mt-2" style="max-width: 200px;" name="idioma" required>
+                                        <% langTable.forEach(function(lang) { %>
+                                            <option value="<%= lang.codigo_idioma %>" <%= traduccion.idioma === lang.codigo_idioma ? 'selected' : '' %>><%= lang.Nombre_idioma %></option>
+                                        <% }); %>
+                                    </select>
+                                    <hr>
+                                </div>
+
+                                <div class="col-4 ">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="tipoLetraLabel">Tipo de Letra</span>
+                                        <select class="form-select mt-2" name="tipoLetra" id="tipoLetraOrigin<%= traduccion.traduccion %>"
+                                            onchange="
+                                            if(this.value === 'custom') { 
+                                                document.getElementById('customTipoLetra<%= traduccion.traduccion %>').style.display = 'block'; 
+                                                document.getElementById('tipoLetraOrigin<%= traduccion.traduccion %>').name = ''; 
+                                                document.getElementById('customTipoLetra<%= traduccion.traduccion %>').name = 'tipoLetra'; 
+                                            } else { 
+                                                document.getElementById('customTipoLetra<%= traduccion.traduccion %>').style.display = 'none'; 
+                                                document.getElementById('customTipoLetra<%= traduccion.traduccion %>').name = ''; 
+                                            }">
+                                            <option value="custom">Custom</option>
+                                            <% fuentes.forEach(function(fuente) { %>
+                                                <option value="<%= fuente.nombre %>" <%= traduccion.tipoLetra === fuente.nombre ? 'selected' : '' %>><%= fuente.nombre %></option>
+                                            <% }); %>
+                                        </select>
+                                        <input type="text" class="form-control mt-2" id="customTipoLetra<%= traduccion.traduccion %>" name="tipoLetra" value="<%= traduccion.tipoLetra %>" placeholder="Tipo de Letra Personalizado" style="display: <%= !['Arial', 'Verdana', 'Helvetica', 'Times New Roman'].includes(traduccion.tipoLetra) ? 'block' : 'none' %>;">
+                                        
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="colorLabel">Color</span>
+                                        <input type="color" class="form-control border border-0" name="color" value="<%= traduccion.color %>" aria-describedby="colorLabel">
+                                        <span class="input-group-text" id="backgroundLabel">Background</span>
+                                        <input type="text" class="form-control border border-0" name="background" value="<%= traduccion.background %>" aria-describedby="backgroundLabel">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="fontWeightLabel">Negrita de Fuente</span>
+                                        <input type="range" class="mt-2 form-control form-range border border-0 " value="<%= traduccion.fontWeight %>" min="0" max="900" step="0.1" name="fontWeight" aria-describedby="fontWeightLabel" oninput="document.getElementsByClassName('fontWeightValue<%= traduccion.traduccion %>')[0].innerText = this.value">
+                                        <span class="input-group-text fontWeightValue<%= traduccion.traduccion %>" style="min-width: 80px;" id="fontWeightValue"><%= traduccion.fontWeight %></span>
+                                    </div>
+                                    
+                                    <div class="input-group mb-3">  
+                                        <span class="input-group-text" id="sizeTextLabel">Tamaño del Texto</span>
+                                        <input type="range" class="mt-2 form-control form-range border border-0" value="<%= traduccion.size_text %>" min="0" max="70" step="0.1" name="size_text" aria-describedby="sizeTextLabel" oninput="document.getElementsByClassName('sizeTextValue<%= traduccion.traduccion %>')[0].innerText = this.value">
+                                        <span class="input-group-text sizeTextValue<%= traduccion.traduccion %>" style="min-width: 80px;" id="sizeTextValue"><%= traduccion.size_text %> px</span>
+                                    </div>
+                                </div>
+                                <div class="col-4 border-start border-dark-subtle">
+                                    <p>Borde</p>
+                                    <div class="input-group mb-3">   
+                                        <span class="input-group-text" id="bordeSizeLabel">Tamaño del Borde</span>
+                                        <input type="range" class="mt-2 form-control form-range border border-0" value="<%= traduccion.borde_size %>" min="0" max="40" step="0.1" name="borde_size" aria-describedby="bordeSizeLabel" oninput="document.getElementsByClassName('bordeSizeValue<%= traduccion.traduccion %>')[0].innerText = this.value">
+                                        <span class="input-group-text bordeSizeValue<%= traduccion.traduccion %>" style="min-width: 80px;" id="bordeSizeValue"><%= traduccion.borde_size %> pt</span>
+                                    </div>
+                                    <input type="color" class="form-control" name="borde_color" value="<%= traduccion.borde_color %>" placeholder="Color del Borde">
+                                    
+                                    <hr>
+                                    <div>
+                                        <input style="display: none;" type="text" class="" name="posicion_vertical" value="<%= traduccion.posicion_vertical %>" placeholder="Posición Vertical">
+                                        <input type="text" class="" name="posicion_horizontal" value="<%= traduccion.posicion_horizontal %>" placeholder="Posición Horizontal"><br>
+                                        <input type="checkbox" class="form-check-input" name="sombra" <%= traduccion.sombra ? 'checked' : '' %>> Sombra
+                                        <!--<input type="checkbox" class="form-check-input" name="negrita" <%= traduccion.negrita ? 'checked' : '' %>> Negrita-->
+                                        <input type="checkbox" class="form-check-input" name="subrayado" <%= traduccion.subrayado ? 'checked' : '' %>> Subrayado
+                                        <input type="checkbox" class="form-check-input" name="cursiva" <%= traduccion.cursiva ? 'checked' : '' %>> Cursiva
+                                    </div>
+                                    
+                                </div>
+
+
+                                <div class="col-4 border-start border-dark-subtle" style="background-color: <%= backgroundColor %> ;">
+                                    <p>Preview</p>
+
+                                <span style="
+                                    font-family: <%= traduccion.tipoLetra %>;
+                                    color: <%= traduccion.color %>;
+                                    font-weight: <%= traduccion.fontWeight %>;
+                                    font-size: <%= traduccion.size_text %>px;
+                                    border: <%= traduccion.borde_size %>px solid <%= traduccion.borde_color %>;
+                                    background-color: <%= traduccion.background %>;
+                                    text-shadow: <%= traduccion.sombra ? '4px 4px 2px rgba(0,0,0,0.6)' : 'none;' %>;
+                                    position: relative;
+                                    top: <%= traduccion.posicion_vertical %>px;
+                                    left: <%= traduccion.posicion_horizontal %>px;
+                                    font-style: <%= traduccion.cursiva ? 'italic' : 'normal' %>;
+                                    text-decoration: <%= traduccion.subrayado ? 'underline' : 'none' %>;
+                                    
+                                    ">
+                                    <!--font-weight: <%= traduccion.negrita ? 'bold' : 'normal' %>;-->
+                                    <%= langTable.find(lang => lang.codigo_idioma === traduccion.idioma).Ejemplo_de_texto %>
+
+                                    
+                                </span>
+                                </div>
+                                <div class="col-12 mb-1 mt-1 text-end">
+                                    <% if (traduccion.traduccion != 1) { %>
+                                        <a href="/delete-traduccion/<%= traduccion.traduccion %>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta traducción?');">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                                            </svg>
+                                        </a>
+                                    <% } %>
+                                    <button type="submit" class="btn btn-light" >Actualizar Traducción</button>
+                                </div>
+                            </div>
+                        </form>
+                    
+                <% }); %>
+            </div> 
+
+            
+            
+        </div>
+
+
+        <script src="/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+</html>
